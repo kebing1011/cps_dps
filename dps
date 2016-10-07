@@ -1,0 +1,43 @@
+
+#!/bin/bash
+
+function Usage()
+{
+	echo "DPS(1) decompress .tar.gz .tar.bz2 .tar .gzip .bzip2 .zip .rar .7z .xz file"
+	echo "Usage:"
+	echo "dps [compressed_file_name]"
+}
+
+if [ -z "$1" ]; then
+	Usage
+	exit
+fi
+
+if [ ! -f "$1" ]; then
+	echo "$1: No such file or directory"
+	exit 
+fi
+
+
+  if [ -n "$(echo "$1" | grep ".tar.gz$")" ]; then
+	tar -zxvf "$1"
+elif [ -n "$(echo "$1" | grep ".tar.bz2$")" ]; then
+	tar -jxvf "$1"
+elif [ -n "$(echo "$1" | grep ".tar$")" ]; then
+	tar -xvf "$1"
+elif [ -n "$(echo "$1" | grep ".gz$")" ]; then
+	gunzip  "$1"
+elif [ -n "$(echo "$1" | grep ".bz2$")" ]; then
+	bunzip2  "$1"
+elif [ -n "$(echo "$1" | grep ".zip$")" ]; then
+	unzip "$1"
+elif [ -n "$(echo "$1" | grep ".rar$")" ]; then
+	rar x "$1"
+elif [ -n "$(echo "$1" | grep ".7z$")" ]; then
+	7z x "$1"
+elif [ -n "$(echo "$1" | grep ".xz$")" ]; then
+	unxz "$1"
+else
+	echo "dps dosn't decompress this file."
+	echo "support .tar.gz .tar.bz2 .tar .gzip .bzip2 .zip .rar .7z .xz only."	
+fi
